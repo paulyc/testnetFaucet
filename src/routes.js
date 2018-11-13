@@ -19,10 +19,15 @@ var routes = [
     path: "/withdraw",
     handler: withdrawHandler,
     config: {
+      plugins: {
+        "hapi-rate-limit": {
+          enabled: true
+        }
+      },
       validate: {
         payload: {
-          address: Joi.string(),
-          amount: Joi.string()
+          address: Joi.string().required(),
+          amount: Joi.number().required()
         }
       }
     }
@@ -43,6 +48,8 @@ var routes = [
 //Add our development only routes here.
 if (process.env.NODE_ENV !== "production") {
   //Dev only routes go here.
+  //Disable in development
+  routes[1].config.plugins["hapi-rate-limit"].enabled = false;
 }
 
 module.exports = routes;

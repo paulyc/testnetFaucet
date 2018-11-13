@@ -6,10 +6,10 @@ block content
       .walletTextContainer
         .walletBalance
           span="Current Balance: "
-          span=prettyPrintHNS(balance)
+          span=numberWithCommas(balance) + " tHNS"
         .walletAvailable
           span="Available for Withdraw: "
-          span(name="available")=prettyPrintHNS(available)
+          span(name="available")=numberWithCommas(available) + " tHNS"
       hr.underline
     .sendCoinsContainer
       h3.sendTitle Send Testnet Tokens
@@ -17,7 +17,7 @@ block content
         span.errorMessage
         input(required name="address" onclick="resetInput(event)" placeholder="Your Handshake Testnet Address").addressInput
         .secondLine
-          input(required name="amount" onclick="resetInput(event)" placeholder="Amount to Withdraw" type="number").amountInput
+          input(required name="amount" onclick="resetInput(event)" placeholder="Amount to Withdraw" type="number" step="0.01").amountInput
           button.sendButton Send
     .successMessage
       svg.checkmark(xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="70")

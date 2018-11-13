@@ -1,13 +1,13 @@
 const config = require("config");
 const { WalletClient } = require("hs-client");
-const { Network } = require("../../../hsd");
-const network = Network.get(config.get("Chain.network"));
+const { Network } = require("hsd");
+const network = Network.get(config.get("node-network"));
 
-//This needs to be moved somewhere else.
 const walletOptions = {
   network: network.type,
+  host: config.get("wallet-host"),
   port: network.walletPort,
-  apiKey: config.get("Nodes.BaseNodeConfig.apiKey")
+  apiKey: config.get("node-api-key")
 };
 
 let _walletClient = new WalletClient(walletOptions);
@@ -16,7 +16,7 @@ let _address;
 
 async function initWallet() {
   _walletClient = new WalletClient(walletOptions);
-  _wallet = await _walletClient.wallet(config.get("Chain.walletID"));
+  _wallet = await _walletClient.wallet(config.get("wallet-id"));
   await _walletClient.open();
   await _wallet.open();
   //So this can be up for discussion, but I'm not sure if we want to do a new address

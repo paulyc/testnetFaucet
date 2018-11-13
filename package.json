@@ -1,28 +1,33 @@
 {
-  "name": "Block-Explorer-Backend",
+  "name": "Handshake Alliance Testnet Faucet",
   "version": "0.0.0",
-  "description": "The backend api that runs our block explorer.",
-  "main": "app.js",
+  "description": "A faucet for the Handshake testnet",
+  "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
+    "start:prod": "npm run build; NODE_ENV=production node src/apps.js",
     "dev": "gulp",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npm install --ignore-scripts git+https://github.com/handshake-org/hsd.git"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ProjectKnucks/blockBackend.git"
   },
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ProjectKnucks/backend/issues"
   },
   "homepage": "https://github.com/ProjectKnucks/backend#readme",
   "dependencies": {
     "autoprefixer": "^9.3.1",
+    "bignumber.js": "^8.0.1",
     "browser-sync": "^2.26.3",
+    "catbox-memory": "^4.0.1",
     "config": "^2.0.1",
     "cssnano": "^4.1.7",
-    "decimal.js": "^10.0.1",
+    "del": "^3.0.0",
     "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
@@ -31,10 +36,10 @@
     "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-terser": "^1.1.5",
-    "handlebars": "^4.0.12",
     "hapi": "^17.5.3",
+    "hapi-rate-limit": "^2.1.3",
     "hs-client": "0.0.3",
-    "humanize-duration": "^3.15.3",
+    "hsd": "git+https://github.com/handshake-org/hsd.git",
     "inert": "^5.1.0",
     "postcss-import": "^12.0.1",
     "precss": "^3.1.2",

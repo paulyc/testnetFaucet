@@ -1,3 +1,5 @@
+const config = require("config");
+
 function handleSubmit(e) {
   e.preventDefault();
 
@@ -18,16 +20,10 @@ function handleSubmit(e) {
 
   let txText = document.querySelector(".transactionConfirmation");
 
-  console.log(txText);
-
-  console.log(amount.value);
-
   //Available passed in through home.pug template !!
-  //
-  // Convert Available into HNS values
-  available = available / 1000000;
+  let availableHNS = available;
 
-  if (amount.value > available) {
+  if (amount.value > availableHNS) {
     errorMessage.innerHTML =
       "You can't withdraw more than the available amount.";
     errorMessage.classList.add("visible");
@@ -60,12 +56,18 @@ function handleSubmit(e) {
       checkmark.classList.add("active");
       txText.innerHTML = `You have been sent ${
         amount.value
-      } HNS! View the transaction <a href="https://HNScan.com/tx/${
-        data.hash
-      }">here</a>`;
+      } HNS! View the transaction <a href="${config.get(
+        "block-explorer-url"
+      )}/tx/${data.hash}">here</a>`;
     } else if (xhr.status >= 400 && xhr.status < 500) {
-      errorMessage.innerHTML = xhr.responseText;
-      errorMessage.classList.add("visible");
+      if (xhr.status === 429) {
+        errorMessage.innerHTML =
+          "Too many requests. Please try again in an hour";
+        errorMessage.classList.add("visible");
+      } else {
+        errorMessage.innerHTML = xhr.responseText;
+        errorMessage.classList.add("visible");
+      }
     } else {
       errorMessage.innerHTML = "Something went wrong... Please try again later";
       errorMessage.classList.add("visible");
@@ -74,7 +76,7 @@ function handleSubmit(e) {
   xhr.send(
     JSON.stringify({
       address: address.value,
-      amount: amount.value
+      amount: amount.value * 1000000
     })
   );
 

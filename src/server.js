@@ -8,14 +8,10 @@ const templateFunctions = require("./util/templateFunctions.js");
 const routes = require("./routes.js");
 
 const server = Hapi.server({
-  port: config.get("Server.port"),
-  host: config.get("Server.host"),
-  //Make sure this comes from config - depending on the env.
-  //TODO
+  port: config.get("server-port"),
+  host: config.get("server-host"),
+  cache: { engine: require("catbox-memory"), name: "memory" },
   routes: {
-    cors: {
-      origin: ["*"]
-    },
     files: {
       relativeTo: Path.join(__dirname, "dest")
     }
@@ -27,6 +23,14 @@ const initServer = async () => {
   try {
     await server.register(require("vision"));
     await server.register(require("inert"));
+    await server.register({
+      plugin: require("hapi-rate-limit"),
+      options: {
+        enabled: false,
+        userLimit: 1,
+        trustProxy: true
+      }
+    });
 
     server.views({
       engines: {

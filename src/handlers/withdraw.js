@@ -1,7 +1,30 @@
+const { getWallet } = require("../util/wallet.js");
+const { convertToHNS } = require("../util/util.js");
+
 async function withdrawHandler(request, h) {
-  let data = {
-    hash: "d0b9cc990b1b026aebd988ae367b5cc3d00ce42429634d56880d139516e8ad98"
+  let wallet = getWallet();
+
+  //Need address validation here.
+  //use hsd address.isValid()
+  let address = request.payload.address;
+  //Expect this to be in subunit
+  let amount = request.payload.amount;
+  let tx;
+
+  const options = {
+    outputs: [{ value: amount, address: address }]
   };
+
+  try {
+    tx = await wallet.send(options);
+  } catch (e) {
+    console.log(e);
+  }
+
+  let data = {
+    hash: tx.hash
+  };
+
   return h.response(data).code(200);
 }
 

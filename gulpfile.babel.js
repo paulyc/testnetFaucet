@@ -1,6 +1,7 @@
+import config from "config";
 import gulp from "gulp";
 import browserSync from "browser-sync";
-// import del from "del";
+import del from "del";
 import rename from "gulp-rename";
 import concat from "gulp-concat";
 import terser from "gulp-terser";
@@ -19,10 +20,7 @@ import cssnano from "cssnano";
 
 const server = browserSync.create();
 
-//So that we can watch for changes in the gulpfile.  gulp.slurped = false;
-
-//This doesn't work lol
-// const clean = () => del(["dest"]);
+const clean = () => del(["src/dest"]);
 
 const paths = {
   main: "src/app.js",
@@ -110,10 +108,10 @@ function misc() {
 
 function serve(done) {
   server.init({
-    proxy: "http://localhost:4000",
+    proxy: `http://${config.get("server-host")}:${config.get("server-port")}`,
     files: [paths.styles.dest],
     browser: "google chrome",
-    port: 7000
+    port: config.get("browsersync-port")
   });
 
   done();
@@ -147,21 +145,14 @@ function watch(done) {
   done();
 }
 
-////Build function
-//const build = gulp.series(clean, gulp.parallel(views, css, scripts, img, misc));
+//Build function
+const build = gulp.series(
+  clean,
+  gulp.parallel(templates, css, scripts, img, misc)
+);
 
-////Deploy Function
-//const deploy = gulp.series(build, ghDeploy);
-
-////All functions that we export
-//export { watch, build, deploy };
-
-//Default function that we export
-// const dev = gulp.series(
-//   clean,
-//   gulp.parallel(views, css, scripts, img, misc),
-//   gulp.parallel(serve, watch)
-// );
+//All functions that we export
+export { build };
 
 const dev = gulp.series(
   gulp.parallel(templates, css, scripts, img, misc),

@@ -7,10 +7,19 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+
+  @media (max-width: 1087px) {
+    flex-direction: column;
+    height: auto;
+  }
 }
 
 .spacer {
   flex-grow: 1;
+
+  @media (max-width: 1087px) {
+    display: none;
+  }
 }
 
 .linksTitle {
@@ -35,6 +44,14 @@
   align-items: center;
   justify-content: center;
   border-right: 1.5px solid #dbdbdb;
+
+  @media (max-width: 1087px) {
+    flex-direction: column;
+    height: auto;
+    width: 50%;
+    border-right: none;
+    border-bottom: 1.5px solid #dbdbdb;
+  }
 }
 
 .haContainer {
@@ -87,6 +104,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 1087px) {
+    width: 50%;
+    margin-top: 50px;
+  }
 }
 
 /* ----- Right ----- */
@@ -97,4 +119,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 1087px) {
+    width: 50%;
+    margin-top: 75px;
+    margin-bottom: 75px;
+
+  }
 }
