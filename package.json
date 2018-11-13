@@ -1,5 +1,5 @@
 {
-  "name": "Handshake Alliance Testnet Faucet",
+  "name": "testnet-faucet",
   "version": "0.0.0",
   "description": "A faucet for the Handshake testnet",
   "main": "src/app.js",
