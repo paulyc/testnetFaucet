@@ -1,5 +1,3 @@
-const config = require("config");
-
 function handleSubmit(e) {
   e.preventDefault();
 
