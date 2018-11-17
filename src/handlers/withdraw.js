@@ -33,7 +33,7 @@ async function withdrawHandler(request, h) {
   }
 
   const options = {
-    outputs: [{ value: amount, address: address.toString("testnet") }]
+    outputs: [{ value: amount, address: address }]
   };
 
   //We need error checking.
