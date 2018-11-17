@@ -24,6 +24,9 @@ async function withdrawHandler(request, h) {
     return h.response("This address is not valid").code(401);
   }
 
+  console.log(amount);
+  console.log(available);
+
   if (amount > available || amount == 0) {
     return h
       .response("You cannot withdraw this much. Please try again.")
