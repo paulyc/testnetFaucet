@@ -12,6 +12,8 @@ async function withdrawHandler(request, h) {
   //Calculate available to withdraw
   let available = calculateWithdraw(balance);
 
+  available = convertToHNS(available, false);
+
   let address = new Address(request.payload.address);
 
   //Expect this to be in subunit
@@ -23,9 +25,6 @@ async function withdrawHandler(request, h) {
   if (!address.isValid()) {
     return h.response("This address is not valid").code(401);
   }
-
-  console.log(amount);
-  console.log(available);
 
   if (amount > available || amount == 0) {
     return h
